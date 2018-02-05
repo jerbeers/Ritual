@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017 Razeware LLC
+ * Copyright (c) 2018 Razeware LLC
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -32,34 +32,22 @@ import UIKit
 
 class TaskTableViewCell: UITableViewCell {
   //MARK: Properties
-  @IBOutlet weak var taskLabel: UILabel!
-  @IBOutlet weak var radioButton: UIButton!
+  @IBOutlet var taskLabel: UILabel!
+  @IBOutlet var radioButton: UIButton!
   var isTaskDone: Bool = false
-  
-  override func awakeFromNib() {
-    super.awakeFromNib()
-    // Initialization code      
-  }
-  
-  override func setSelected(_ selected: Bool, animated: Bool) {
-    super.setSelected(selected, animated: animated)
-    
-    // Configure the view for the selected state
-  }
   
   @IBAction func radioButtonTapped(_ sender: Any) {
     let taskDescription = taskLabel.text ?? ""
     if isTaskDone {
       isTaskDone = false
-      radioButton.setImage(UIImage.init(named: "radio-button-unselected"), for: .normal)
-      taskLabel.textColor = UIColor.black
+      radioButton.setImage(UIImage(named: "radio-button-unselected"), for: .normal)
+      taskLabel.textColor = .black
       taskLabel.attributedText = NSAttributedString.init(string: taskDescription)
     } else {
       isTaskDone = true
-      radioButton.setImage(UIImage.init(named: "radio-button-selected"), for: .normal)
-      taskLabel.textColor = UIColor.gray
-      taskLabel.attributedText = NSAttributedString.init(string: taskDescription, attributes:[ NSAttributedStringKey.strikethroughStyle: 1 ])
-    }
-    
+      radioButton.setImage(UIImage(named: "radio-button-selected"), for: .normal)
+      taskLabel.textColor = .gray
+      taskLabel.attributedText = NSAttributedString.init(string: taskDescription, attributes:[NSAttributedStringKey.strikethroughStyle: 1])
+    }    
   }
 }

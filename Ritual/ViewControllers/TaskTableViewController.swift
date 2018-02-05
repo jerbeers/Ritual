@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017 Razeware LLC
+ * Copyright (c) 2018 Razeware LLC
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -32,7 +32,7 @@ import UIKit
 
 class TaskTableViewController: UITableViewController {
   
-  var tasks = [Task?]()
+  var tasks: [Task?] = []
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -45,11 +45,6 @@ class TaskTableViewController: UITableViewController {
     let task2 = Task.init(description: "Task 2", notes: nil)
     
     tasks += [task1, task2]
-  }
-  
-  override func didReceiveMemoryWarning() {
-    super.didReceiveMemoryWarning()
-    // Dispose of any resources that can be recreated.
   }
 }
 
@@ -73,26 +68,25 @@ extension TaskTableViewController {
     cell.taskLabel.text = tasks[indexPath.row]?.description
     return cell
   }
-
-  override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-    return true
-  }
-
+  
   override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
     if editingStyle == .delete {
       tasks.remove(at: indexPath.row)
       tableView.deleteRows(at: [indexPath], with: .fade)
     }
   }
+  
+  override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+    return true
+  }
 }
 
 extension TaskTableViewController {
   // MARK: - Navigation
   
-  // In a storyboard-based application, you will often want to do a little preparation before navigation
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     super.prepare(for: segue, sender: sender)
-    guard let segueID = segue.identifier else {return}
+    guard let segueID = segue.identifier else { return }
     switch segueID {
     case "AddTask":
       break
@@ -120,18 +114,13 @@ extension TaskTableViewController {
   @IBAction func unwindToTaskList(sender: UIStoryboardSegue) {
     if let sourceViewController = sender.source as? TaskDetailsViewController, let task = sourceViewController.task {
       if let selectedIndexPath = tableView.indexPathForSelectedRow {
-        // Update an existing task.
         tasks[selectedIndexPath.row] = task
         tableView.reloadRows(at: [selectedIndexPath], with: .none)
-      }
-      else {
-        // Add a new task.
+      } else {
         let newIndexPath = IndexPath(row: tasks.count, section: 0)
-        
         tasks.append(task)
         tableView.insertRows(at: [newIndexPath], with: .automatic)
       }
     }
-  }
-  
+  }  
 }
